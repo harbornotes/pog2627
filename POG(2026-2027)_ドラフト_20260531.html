@@ -1,0 +1,460 @@
+﻿<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>POGドラフト(2026-2027) 分析レポート図解</title>
+<style>
+    :root {
+        --primary: #1e293b;
+        --secondary: #3b82f6;
+        --bg-color: #f8fafc;
+        --card-bg: #ffffff;
+        --text-main: #0f172a;
+        --text-muted: #475569;
+        --border-color: #e2e8f0;
+        --accent-green: #10b981;
+        --accent-blue: #3b82f6;
+        --accent-orange: #f59e0b;
+    }
+
+    body {
+        margin: 0;
+        padding: 32px 24px;
+        font-family: "Helvetica Neue", Arial, "Hiragino Kaku Gothic ProN", "Hiragino Sans", Meiryo, sans-serif;
+        background-color: var(--bg-color);
+        color: var(--text-main);
+        font-size: 1.05rem; /* 全体のベースサイズ */
+        line-height: 1.6;
+    }
+
+    .container {
+        max-width: 1100px;
+        margin: 0 auto;
+    }
+
+    .page-title {
+        background-color: var(--primary);
+        color: #ffffff;
+        padding: 28px 24px;
+        border-radius: 8px;
+        text-align: center;
+        font-size: 1.65rem;
+        font-weight: bold;
+        margin-bottom: 40px;
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    }
+
+    .grid-3 {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 24px;
+        margin-bottom: 28px;
+    }
+
+    .grid-2 {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
+        gap: 24px;
+        margin-bottom: 40px;
+    }
+
+    .card {
+        background: var(--card-bg);
+        border-radius: 8px;
+        padding: 24px 28px;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        border-top: 4px solid var(--secondary);
+    }
+
+    .card-title {
+        font-weight: bold;
+        font-size: 1.2rem;
+        color: var(--primary);
+        margin-bottom: 16px;
+        border-bottom: 2px solid var(--border-color);
+        padding-bottom: 10px;
+    }
+
+    .section-title {
+        font-size: 1.2rem;
+        font-weight: bold;
+        color: var(--primary);
+        margin-bottom: 14px;
+        padding-left: 12px;
+        border-left: 4px solid var(--secondary);
+    }
+
+    ul.custom-list {
+        margin: 0;
+        padding-left: 20px;
+    }
+
+    ul.custom-list li {
+        margin-bottom: 10px;
+    }
+
+    /* Progress Bar */
+    .progress-row {
+        display: flex;
+        align-items: center;
+        margin-bottom: 12px;
+    }
+
+    .progress-name {
+        width: 130px;
+        font-weight: bold;
+    }
+
+    .progress-bg {
+        flex-grow: 1;
+        background-color: var(--border-color);
+        height: 28px;
+        border-radius: 4px;
+        position: relative;
+    }
+
+    .progress-fill {
+        height: 100%;
+        border-radius: 4px;
+        display: flex;
+        align-items: center;
+        padding-left: 10px;
+        color: #ffffff;
+        font-weight: bold;
+        white-space: nowrap;
+    }
+
+    /* Badges */
+    .badge {
+        display: inline-block;
+        padding: 4px 10px;
+        border-radius: 4px;
+        font-size: 0.95rem;
+        font-weight: bold;
+        margin-right: 8px;
+        margin-bottom: 8px;
+    }
+    .badge-blue { background: #dbeafe; color: #1e3a8a; }
+    .badge-gray { background: #f1f5f9; color: #334155; }
+    .badge-red { background: #fee2e2; color: #991b1b; }
+
+    /* Table */
+    .table-wrapper {
+        overflow-x: auto;
+        background: var(--card-bg);
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        min-width: 800px;
+    }
+
+    th, td {
+        padding: 14px 16px;
+        border-bottom: 1px solid var(--border-color);
+        text-align: left;
+    }
+
+    th {
+        background-color: var(--bg-color);
+        font-weight: bold;
+        color: var(--text-muted);
+        white-space: nowrap;
+    }
+
+    tr:last-child td {
+        border-bottom: none;
+    }
+
+    @media (max-width: 600px) {
+        body {
+            padding: 16px 12px;
+        }
+        .page-title {
+            font-size: 1.3rem;
+            padding: 20px 16px;
+            margin-bottom: 24px;
+        }
+        .grid-3, .grid-2 {
+            grid-template-columns: 1fr;
+            gap: 16px;
+            margin-bottom: 20px;
+        }
+        .card {
+            padding: 18px 16px;
+        }
+        .progress-name {
+            width: 100px;
+            font-size: 0.9rem;
+        }
+        .table-wrapper {
+            overflow-x: unset;
+            background: transparent;
+            box-shadow: none;
+            border-radius: 0;
+        }
+        table {
+            min-width: unset;
+        }
+        thead {
+            display: none;
+        }
+        tr {
+            display: block;
+            background: var(--card-bg);
+            border-radius: 8px;
+            margin-bottom: 12px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            border-top: 4px solid var(--secondary);
+            overflow: hidden;
+        }
+        td {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 14px;
+            border-bottom: 1px solid var(--border-color);
+            font-size: 0.9rem;
+        }
+        td:last-child {
+            border-bottom: none;
+        }
+        td::before {
+            content: attr(data-label);
+            font-weight: bold;
+            color: var(--text-muted);
+            margin-right: 12px;
+            flex-shrink: 0;
+        }
+    }
+</style>
+</head>
+<body>
+
+<div class="container">
+    <div class="page-title">
+        POGドラフト(2026-2027) 分析レポート
+    </div>
+
+    <div class="grid-3">
+        <div class="card">
+            <div class="card-title">全体指名状況</div>
+            <ul class="custom-list">
+                <li>総指名頭数: <strong>のべ349頭</strong> </li>
+                <li>単独指名: <strong>220頭 (63%)</strong> <br>1人だけが指名したユニークな選択 </li>
+                <li>重複指名: <strong>129頭 (37%)</strong> </li>
+            </ul>
+        </div>
+
+        <div class="card">
+            <div class="card-title">注目馬・種牡馬</div>
+            <ul class="custom-list">
+                <li>最人気馬: <strong>マーゴットディド</strong> <br>9人中8人が指名 </li>
+                <li>人気2位: <strong>ユナカイト / セルフレスリー</strong> <br>各7人が指名 </li>
+                <li>最人気種牡馬: <strong>キタサンブラック</strong> <br>全員がリストに加え42頭が指名された </li>
+            </ul>
+        </div>
+
+        <div class="card">
+            <div class="card-title">競争状況の対比</div>
+            <ul class="custom-list">
+                <li><strong>激戦の中心「いしこ」</strong> <br>他者の指名馬を延べ45頭獲得 </li>
+                <li><strong>我が道を行く「つーじー」</strong> <br>競争範囲内で取られた馬はわずか2頭 </li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="grid-2">
+        <div class="card">
+            <div class="card-title">実質取得率ランキング（効率性の差）</div>
+            
+            <div class="progress-row">
+                <div class="progress-name">ピロシキ </div>
+                <div class="progress-bg">
+                    <div class="progress-fill" style="width: 91%; background-color: var(--accent-green);">91% </div>
+                </div>
+            </div>
+            <div class="progress-row">
+                <div class="progress-name">つーじー </div>
+                <div class="progress-bg">
+                    <div class="progress-fill" style="width: 91%; background-color: var(--accent-green);">91% </div>
+                </div>
+            </div>
+            <div class="progress-row">
+                <div class="progress-name">よぶよぶ </div>
+                <div class="progress-bg">
+                    <div class="progress-fill" style="width: 80%; background-color: var(--accent-green);">80% </div>
+                </div>
+            </div>
+            <div class="progress-row">
+                <div class="progress-name">さだ </div>
+                <div class="progress-bg">
+                    <div class="progress-fill" style="width: 77%; background-color: var(--accent-blue);">77% </div>
+                </div>
+            </div>
+            <div class="progress-row">
+                <div class="progress-name">テンシス </div>
+                <div class="progress-bg">
+                    <div class="progress-fill" style="width: 67%; background-color: var(--accent-blue);">67% </div>
+                </div>
+            </div>
+            <div class="progress-row">
+                <div class="progress-name">スズキックス </div>
+                <div class="progress-bg">
+                    <div class="progress-fill" style="width: 56%; background-color: var(--accent-blue);">56% </div>
+                </div>
+            </div>
+            <div class="progress-row">
+                <div class="progress-name">ひろうっちー </div>
+                <div class="progress-bg">
+                    <div class="progress-fill" style="width: 48%; background-color: var(--accent-orange);">48% </div>
+                </div>
+            </div>
+            <div class="progress-row">
+                <div class="progress-name">きっしー </div>
+                <div class="progress-bg">
+                    <div class="progress-fill" style="width: 42%; background-color: var(--accent-orange);">42% </div>
+                </div>
+            </div>
+            <div class="progress-row">
+                <div class="progress-name">いしこ </div>
+                <div class="progress-bg">
+                    <div class="progress-fill" style="width: 32%; background-color: var(--accent-orange);">32% </div>
+                </div>
+            </div>
+        </div>
+
+        <div>
+            <div class="card" style="margin-bottom: 20px;">
+                <div class="card-title">競合の「台風の目」</div>
+                <p>いしこが他者の指名馬を延べ45頭獲得し、全体の競争に大きな影響を与えました。 以下はいしこに取られた主な頭数です。</p>
+                <ul class="custom-list">
+                    <li>ひろうっちー: 12頭 </li>
+                    <li>きっしー: 12頭 </li>
+                    <li>テンシス: 10頭 </li>
+                    <li>スズキックス: 9頭 </li>
+                </ul>
+            </div>
+
+            <div class="card">
+                <div class="card-title">牡馬派 vs 牝馬派</div>
+                <p>全体として牡馬を多く指名した参加者と牝馬を多く指名した参加者に分かれました。</p>
+                
+                <div style="margin-top: 15px;">
+                    <span class="badge badge-blue">牡馬特化</span>
+                    ピロシキ (牡17)  / テンシス (牡17) 
+                </div>
+                <div style="margin-top: 10px;">
+                    <span class="badge badge-blue" style="opacity: 0.85;">牡馬多め</span>
+                    ひろうっちー (牡14)  / いしこ (牡13)  / つーじー (牡12) 
+                </div>
+                <div style="margin-top: 10px;">
+                    <span class="badge badge-gray">バランス型</span>
+                    さだ (牡11/牝9)  / きっしー (牡11/牝9) 
+                </div>
+                <div style="margin-top: 10px;">
+                    <span class="badge badge-red">牝馬重視</span>
+                    スズキックス (牝13)  / よぶよぶ (牝12) 
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="section-title">個人別データ詳細</div>
+    <div class="table-wrapper">
+        <table>
+            <thead>
+                <tr>
+                    <th>参加者</th>
+                    <th>指名数 / 最深位</th>
+                    <th>実質取得率</th>
+                    <th>性別傾向</th>
+                    <th>主な指名種牡馬</th>
+                    <th>最多競合相手</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td data-label="参加者"><strong>よぶよぶ</strong> </td>
+                    <td data-label="指名数 / 最深位">50頭 / 26位 </td>
+                    <td data-label="実質取得率">80% </td>
+                    <td data-label="性別傾向">牝多め </td>
+                    <td data-label="主な指名種牡馬">キタサン等 </td>
+                    <td data-label="最多競合相手">スズキックス </td>
+                </tr>
+                <tr>
+                    <td data-label="参加者"><strong>ピロシキ</strong> </td>
+                    <td data-label="指名数 / 最深位">68頭 / 22位 </td>
+                    <td data-label="実質取得率">91% </td>
+                    <td data-label="性別傾向">牡中心 </td>
+                    <td data-label="主な指名種牡馬">キタサン等 </td>
+                    <td data-label="最多競合相手">ひろうっちー </td>
+                </tr>
+                <tr>
+                    <td data-label="参加者"><strong>さだ</strong> </td>
+                    <td data-label="指名数 / 最深位">50頭 / 26位 </td>
+                    <td data-label="実質取得率">77% </td>
+                    <td data-label="性別傾向">バランス </td>
+                    <td data-label="主な指名種牡馬">カナロア等 </td>
+                    <td data-label="最多競合相手">ひろうっちー </td>
+                </tr>
+                <tr>
+                    <td data-label="参加者"><strong>スズキックス</strong> </td>
+                    <td data-label="指名数 / 最深位">70頭 / 39位 </td>
+                    <td data-label="実質取得率">56% </td>
+                    <td data-label="性別傾向">牝多め </td>
+                    <td data-label="主な指名種牡馬">3種均等指名 </td>
+                    <td data-label="最多競合相手">いしこ </td>
+                </tr>
+                <tr>
+                    <td data-label="参加者"><strong>つーじー</strong> </td>
+                    <td data-label="指名数 / 最深位">50頭 / 23位 </td>
+                    <td data-label="実質取得率">91% </td>
+                    <td data-label="性別傾向">牡多め </td>
+                    <td data-label="主な指名種牡馬">キタサン等 </td>
+                    <td data-label="最多競合相手">ひろうっちー </td>
+                </tr>
+                <tr>
+                    <td data-label="参加者"><strong>ひろうっちー</strong> </td>
+                    <td data-label="指名数 / 最深位">80頭 / 42位 </td>
+                    <td data-label="実質取得率">48% </td>
+                    <td data-label="性別傾向">牡多め </td>
+                    <td data-label="主な指名種牡馬">キタサン等 </td>
+                    <td data-label="最多競合相手">いしこ </td>
+                </tr>
+                <tr>
+                    <td data-label="参加者"><strong>いしこ</strong> </td>
+                    <td data-label="指名数 / 最深位">126頭 / 67位 </td>
+                    <td data-label="実質取得率">32% </td>
+                    <td data-label="性別傾向">牡多め </td>
+                    <td data-label="主な指名種牡馬">キタサン等 </td>
+                    <td data-label="最多競合相手">ひろうっちー </td>
+                </tr>
+                <tr>
+                    <td data-label="参加者"><strong>きっしー</strong> </td>
+                    <td data-label="指名数 / 最深位">60頭 / 49位 </td>
+                    <td data-label="実質取得率">42% </td>
+                    <td data-label="性別傾向">バランス </td>
+                    <td data-label="主な指名種牡馬">サートル等 </td>
+                    <td data-label="最多競合相手">いしこ </td>
+                </tr>
+                <tr>
+                    <td data-label="参加者"><strong>テンシス</strong> </td>
+                    <td data-label="指名数 / 最深位">70頭 / 32位 </td>
+                    <td data-label="実質取得率">67% </td>
+                    <td data-label="性別傾向">牡中心 </td>
+                    <td data-label="主な指名種牡馬">キタサン等 </td>
+                    <td data-label="最多競合相手">いしこ </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+</div>
+
+</body>
+</html>
